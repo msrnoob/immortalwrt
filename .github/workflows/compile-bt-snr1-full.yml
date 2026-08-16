@@ -40,17 +40,18 @@ jobs:
         run: |
           echo "CONFIG_TARGET_mediatek=y" > .config
           echo "CONFIG_TARGET_mediatek_filogic=y" >> .config
-          echo "CONFIG_TARGET_DEVICE_mediatek_filogic_DEVICE_bt-snr1=y" >> .config
+          echo "CONFIG_TARGET_mediatek_filogic_DEVICE_bt-snr1=y" >> .config
           echo "CONFIG_PACKAGE_luci=y" >> .config
           make defconfig
 
       - name: Verify the device was actually selected (fail fast if not)
         run: |
-          if ! grep -q "CONFIG_TARGET_DEVICE_mediatek_filogic_DEVICE_bt-snr1=y" .config; then
+          if ! grep -q "^CONFIG_TARGET_mediatek_filogic_DEVICE_bt-snr1=y" .config; then
             echo "ERROR: bt-snr1 device was not recognized by this source tree. Aborting before wasting build time."
             exit 1
           fi
           echo "Confirmed: building specifically for bt-snr1"
+          grep "CONFIG_TARGET_PROFILE" .config
 
       - name: Download dependencies
         run: |
