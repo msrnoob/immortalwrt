@@ -3401,10 +3401,11 @@ TARGET_DEVICES += zyxel_nwa50ax-pro
 # 新增bt-snr1设备配置（适配ImmortalWrt 25.12 + 全功能）
 define Device/bt-snr1
   DEVICE_VENDOR := BT
-  DEVICE_MODEL := sn-r1
+  DEVICE_MODEL := SN-R1
   DEVICE_DTS := mt7981-bt-snr1
   DEVICE_DTS_DIR := ../dts
-  IMAGE_SIZE := $(($(1024) * 1024))k
+  SUPPORTED_DEVICES += bt,snr1
+  IMAGE_SIZE := 65536k
   DEVICE_PACKAGES := \
 	kmod-mt7981-firmware kmod-mt7981-wifi mt7981-wo-firmware \
 	kmod-mt7530 swconfig \
