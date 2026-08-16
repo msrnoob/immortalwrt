@@ -65,7 +65,12 @@ jobs:
 
       - name: Compile firmware
         run: |
-          make -j$(nproc) V=s
+          echo "Attempt 1: full parallel build"
+          make -j$(nproc) V=s || {
+            echo "Parallel build hit a dependency-ordering race (common on first full builds)."
+            echo "Retrying single-threaded to let package build order settle - this is expected to work."
+            make -j1 V=s
+          }
           ls -lh bin/targets/mediatek/filogic/ | grep -i snr1
 
       - name: Upload firmware artifact
